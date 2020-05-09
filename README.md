@@ -54,7 +54,10 @@ response.maxSendable # => 100000000
 response.minSendable # => 1000
 response.metadata # => [...]
 
-invoice = response.request_invoice(amount: 1000) # (amount in satoshi) #<Lnurl::InvoiceResponse status="OK"
+invoice = response.request_invoice(amount: 100000) # (amount in msats) #<Lnurl::InvoiceResponse status="OK"
+# or:
+invoice = lnurl.request_invoice(amount: 100000) # (amount in msats)
+
 invoice.status # => OK / ERROR
 invoice.pr # => lntb20u1p0tdr7mpp...
 invoice.successAction # => {...}

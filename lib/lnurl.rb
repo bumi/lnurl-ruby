@@ -8,10 +8,14 @@ class Lnurl
 
   InvoiceResponse = Class.new(OpenStruct)
   LnurlResponse = Class.new(OpenStruct) do
-    def request_invoice(amount: nil, amt_msat: nil)
-      msats = amount ? amount * 1000 : amt_msat
+    # amount in msats
+    def request_invoice(args)
+      args.transform_keys!(&:to_s)
       callback_uri = URI(callback)
-      callback_uri.query = "amount=#{msats}&" + callback_uri.query.to_s
+      if callback_uri.query
+        args = Hash[URI.decode_www_form(callback_uri.query)].merge(args) # reverse merge
+      end
+      callback_uri.query = URI.encode_www_form(args)
       body = Net::HTTP.get(callback_uri)
       InvoiceResponse.new JSON.parse(body)
     end

@@ -49,17 +49,23 @@ class Lnurl
     request_invoice(amount: amount).pr
   end
 
-  def self.lnurl?(value)
-    value.to_s.downcase.match?(Regexp.new("^#{HRP}")) &&
-      decode(value) rescue false
+  def self.valid?(value)
+    return false unless value.to_s.downcase.match?(Regexp.new("^#{HRP}", 'i')) # false if the HRP does not match
+    decoded = decode_raw(value) rescue false # rescue any decoding errors
+    return false unless decoded # false if it could not get decoded
+
+    return decoded.match?(URI.regexp) # check if the URI is valid
   end
 
   def self.decode(lnurl)
+    Lnurl.new(decode_raw(lnurl))
+  end
+
+  def self.decode_raw(lnurl)
     lnurl = lnurl.gsub(/^lightning:/, '')
     hrp, data = Bech32.decode(lnurl, lnurl.length)
     # raise 'no lnurl' if hrp != HRP
-
-    Lnurl.new(convert_bits(data, 5, 8, false).pack('C*').force_encoding('utf-8'))
+    convert_bits(data, 5, 8, false).pack('C*').force_encoding('utf-8')
   end
 
   # FROM: https://github.com/azuchi/bech32rb/blob/master/lib/bech32/segwit_addr.rb

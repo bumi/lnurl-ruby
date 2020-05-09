@@ -4,7 +4,7 @@ require 'json'
 require 'ostruct'
 
 class Lnurl
-  VERSION = '0.1.0'.freeze
+  VERSION = '0.1.1'.freeze
 
   InvoiceResponse = Class.new(OpenStruct)
   LnurlResponse = Class.new(OpenStruct) do

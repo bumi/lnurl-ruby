@@ -30,7 +30,7 @@ class Lnurl
   end
 
   def to_bech32
-    Bech32.encode(HRP, data).upcase
+    Bech32.encode(HRP, data, Bech32::Encoding::BECH32).upcase
   end
   alias encode to_bech32
 
@@ -67,7 +67,7 @@ class Lnurl
 
   def self.decode_raw(lnurl)
     lnurl = lnurl.gsub(/^lightning:/, '')
-    hrp, data = Bech32.decode(lnurl, lnurl.length)
+    hrp, data, sepc = Bech32.decode(lnurl)
     # raise 'no lnurl' if hrp != HRP
     convert_bits(data, 5, 8, false).pack('C*').force_encoding('utf-8')
   end

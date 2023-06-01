@@ -8,7 +8,7 @@ class Lnurl
 
   # Maximum integer size
   # Useful for max_length when decoding
-  FIXNUM_MAX = (2**(0.size * 8 -2) -1)
+  MAX_INTEGER = 2**31 - 1
 
   InvoiceResponse = Class.new(OpenStruct)
   LnurlResponse = Class.new(OpenStruct) do

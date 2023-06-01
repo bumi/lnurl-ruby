@@ -44,7 +44,7 @@ lnurl.uri # => #<URI::HTTPS https://lnurl.com/pay>
 
 For longer LNURLs you might see an error while decoding, in that case you can use
 ```ruby
-lnurl = Lnurl.decode(a_very_long_lnurl, Lnurl::FIXNUM_MAX)
+lnurl = Lnurl.decode(a_very_long_lnurl, Lnurl::MAX_INTEGER)
 ```
 
 

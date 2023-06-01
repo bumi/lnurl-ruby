@@ -6,6 +6,10 @@ require 'ostruct'
 class Lnurl
   VERSION = '1.0.1'.freeze
 
+  # Maximum integer size
+  # Useful for max_length when decoding
+  FIXNUM_MAX = (2**(0.size * 8 -2) -1)
+
   InvoiceResponse = Class.new(OpenStruct)
   LnurlResponse = Class.new(OpenStruct) do
     # amount in msats
@@ -61,13 +65,13 @@ class Lnurl
     return decoded.match?(URI.regexp) # check if the URI is valid
   end
 
-  def self.decode(lnurl)
-    Lnurl.new(decode_raw(lnurl))
+  def self.decode(lnurl, max_length = 90)
+    Lnurl.new(decode_raw(lnurl, max_length))
   end
 
-  def self.decode_raw(lnurl)
+  def self.decode_raw(lnurl, max_length = 90)
     lnurl = lnurl.gsub(/^lightning:/, '')
-    hrp, data, sepc = Bech32.decode(lnurl)
+    hrp, data, sepc = Bech32.decode(lnurl,max_length)
     # raise 'no lnurl' if hrp != HRP
     convert_bits(data, 5, 8, false).pack('C*').force_encoding('utf-8')
   end

@@ -42,6 +42,12 @@ lnurl = Lnurl.decode('LNURL1DP68GURN8GHJ7MRWW4EXCTNRDAKJ7URP0YVM59LW')
 lnurl.uri # => #<URI::HTTPS https://lnurl.com/pay>
 ```
 
+For longer LNURLs you might see an error while decoding, in that case you can use
+```ruby
+lnurl = Lnurl.decode(a_very_long_lnurl, Lnurl::FIXNUM_MAX)
+```
+
+
 ### LNURL responses
 
 ```ruby

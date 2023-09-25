@@ -42,6 +42,13 @@ lnurl = Lnurl.decode('LNURL1DP68GURN8GHJ7MRWW4EXCTNRDAKJ7URP0YVM59LW')
 lnurl.uri # => #<URI::HTTPS https://lnurl.com/pay>
 ```
 
+### [Lightning Address](https://github.com/andrerfneves/lightning-address)
+
+```ruby
+lnurl = Lnurl.from_lightning_address('user@lnurl.com')
+lnurl.uri # => #<URI::HTTPS https://lnurl.com/.well-known/lnurlp/user>
+```
+
 ### LNURL responses
 
 ```ruby

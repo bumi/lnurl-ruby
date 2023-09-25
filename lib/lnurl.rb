@@ -65,13 +65,13 @@ class Lnurl
     return decoded.match?(URI.regexp) # check if the URI is valid
   end
 
-  def self.decode(lnurl, max_length = 90)
+  def self.decode(lnurl, max_length = MAX_INTEGER)
     Lnurl.new(decode_raw(lnurl, max_length))
   end
 
-  def self.decode_raw(lnurl, max_length = 90)
+  def self.decode_raw(lnurl, max_length = MAX_INTEGER)
     lnurl = lnurl.gsub(/^lightning:/, '')
-    hrp, data, sepc = Bech32.decode(lnurl,max_length)
+    hrp, data, sepc = Bech32.decode(lnurl, max_length)
     # raise 'no lnurl' if hrp != HRP
     convert_bits(data, 5, 8, false).pack('C*').force_encoding('utf-8')
   end

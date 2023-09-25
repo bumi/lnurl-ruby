@@ -42,9 +42,9 @@ lnurl = Lnurl.decode('LNURL1DP68GURN8GHJ7MRWW4EXCTNRDAKJ7URP0YVM59LW')
 lnurl.uri # => #<URI::HTTPS https://lnurl.com/pay>
 ```
 
-For longer LNURLs you might see an error while decoding, in that case you can use
+By default we accept long LNURLs but you can configure a custom max length:
 ```ruby
-lnurl = Lnurl.decode(a_very_long_lnurl, Lnurl::MAX_INTEGER)
+lnurl = Lnurl.decode(a_short_lnurl, 90)
 ```
 
 ### [Lightning Address](https://github.com/andrerfneves/lightning-address)

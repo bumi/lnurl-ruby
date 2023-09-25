@@ -22,6 +22,7 @@ class Lnurl
   end
 
   HRP = 'lnurl'.freeze
+  MAX_INTEGER = 2**31.freeze
 
   attr_reader :uri
 
@@ -67,7 +68,7 @@ class Lnurl
 
   def self.decode_raw(lnurl)
     lnurl = lnurl.gsub(/^lightning:/, '')
-    hrp, data, sepc = Bech32.decode(lnurl)
+    hrp, data, sepc = Bech32.decode(lnurl, MAX_INTEGER)
     # raise 'no lnurl' if hrp != HRP
     convert_bits(data, 5, 8, false).pack('C*').force_encoding('utf-8')
   end

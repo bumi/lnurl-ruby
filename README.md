@@ -47,6 +47,12 @@ For longer LNURLs you might see an error while decoding, in that case you can us
 lnurl = Lnurl.decode(a_very_long_lnurl, Lnurl::MAX_INTEGER)
 ```
 
+### [Lightning Address](https://github.com/andrerfneves/lightning-address)
+
+```ruby
+lnurl = Lnurl.from_lightning_address('user@lnurl.com')
+lnurl.uri # => #<URI::HTTPS https://lnurl.com/.well-known/lnurlp/user>
+```
 
 ### LNURL responses
 

@@ -4,7 +4,7 @@ require 'json'
 require 'ostruct'
 
 class Lnurl
-  VERSION = '1.0.1'.freeze
+  VERSION = '1.1.0'.freeze
 
   # Maximum integer size
   # Useful for max_length when decoding
@@ -74,6 +74,15 @@ class Lnurl
     hrp, data, sepc = Bech32.decode(lnurl,max_length)
     # raise 'no lnurl' if hrp != HRP
     convert_bits(data, 5, 8, false).pack('C*').force_encoding('utf-8')
+  end
+
+  def self.from_lightning_address(lightning_address)
+    Lnurl.new(decode_lightning_address(lightning_address))
+  end
+
+  def self.decode_lightning_address(lightning_address)
+    username, domain = lightning_address.split('@')
+    "https://#{domain}/.well-known/lnurlp/#{username}"
   end
 
   # FROM: https://github.com/azuchi/bech32rb/blob/master/lib/bech32/segwit_addr.rb

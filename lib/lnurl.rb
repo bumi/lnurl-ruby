@@ -4,7 +4,7 @@ require 'json'
 require 'ostruct'
 
 class Lnurl
-  VERSION = '1.1.0'.freeze
+  VERSION = '1.1.1'.freeze
 
   # Maximum integer size
   # Useful for max_length when decoding

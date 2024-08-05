@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    lnurl (1.1.0)
+    lnurl (1.1.1)
       bech32 (~> 1.1)
 
 GEM

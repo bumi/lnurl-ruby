@@ -4,7 +4,7 @@ require 'json'
 require 'ostruct'
 
 class Lnurl
-  VERSION = '1.1.0'.freeze
+  VERSION = '1.1.1'.freeze
 
   # Maximum integer size
   # Useful for max_length when decoding
@@ -20,7 +20,7 @@ class Lnurl
         args = Hash[URI.decode_www_form(callback_uri.query)].merge(args) # reverse merge
       end
       callback_uri.query = URI.encode_www_form(args)
-      body = Net::HTTP.get(callback_uri)
+      body = Lnurl.http_get(callback_uri)
       InvoiceResponse.new JSON.parse(body)
     end
   end
@@ -44,7 +44,7 @@ class Lnurl
 
   def response
     @response ||= begin
-                    body = Net::HTTP.get(uri) # TODO: redirects?
+                    body = self.class.http_get(uri)
                     LnurlResponse.new JSON.parse(body)
                   end
   end
@@ -107,5 +107,20 @@ class Lnurl
       return nil
     end
     ret
+  end
+
+  # Handles HTTP GET requests and follows redirects if necessary
+  def self.http_get(uri, limit = 10)
+    raise ArgumentError, 'too many HTTP redirects' if limit.zero?
+
+    response = Net::HTTP.get_response(uri)
+
+    case response
+    when Net::HTTPRedirection
+      location = response['location']
+      http_get(URI(location), limit - 1)
+    else
+      response.body
+    end
   end
 end
